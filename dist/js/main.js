@@ -972,6 +972,8 @@ var _WeatherContainer2 = _interopRequireDefault(_WeatherContainer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+console.log('weather api key: ' + config.OPEN_WEATHER_KEY);
+
 /***/ }),
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
