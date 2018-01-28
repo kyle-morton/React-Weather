@@ -2,18 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="lib/moment.js"></script>
     <script type="text/javascript" src="../config.js"></script>
     <title>React Weather</title>
+
+    <style>
+        .high-temp, .low-temp {
+            display:inline;   
+        }
+        .high-temp {
+            margin-right: 5px;
+        }
+        .light-gray {
+            color: #abadb2;
+        }
+    </style>
+
 </head>
 <body>
     <div class="container">
-        <div class="row mt-5">
-            <div class="col-md-4 offset-md-1">
-                <div id="weather-container">
-                    <!-- form -->
-                </div>
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <h2>Little Rock Weather</h2>
             </div>
+        </div>
+        <div id="weather-container">
+                <!-- form -->
         </div>
     </div>
 <script type="text/javascript" src="js/main.js"></script></body>
