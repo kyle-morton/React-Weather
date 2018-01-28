@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Input from "../presentational/Input";
 
-class SampleContainer extends Component {
+class WeatherContainer extends Component {
     constructor() {
         super();
         this.state = {
@@ -33,7 +33,7 @@ class SampleContainer extends Component {
     }
 }
 
-export default SampleContainer;
+export default WeatherContainer;
 
-const wrapper = document.getElementById('sample-react-container');
-wrapper ? ReactDOM.render(<SampleContainer />, wrapper) : false;
+const wrapper = document.getElementById('weather-container');
+wrapper ? ReactDOM.render(<WeatherContainer />, wrapper) : false;

@@ -966,9 +966,9 @@ module.exports = __webpack_require__(16);
 "use strict";
 
 
-var _SampleContainer = __webpack_require__(17);
+var _WeatherContainer = __webpack_require__(17);
 
-var _SampleContainer2 = _interopRequireDefault(_SampleContainer);
+var _WeatherContainer2 = _interopRequireDefault(_WeatherContainer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1007,13 +1007,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var SampleContainer = function (_Component) {
-    _inherits(SampleContainer, _Component);
+var WeatherContainer = function (_Component) {
+    _inherits(WeatherContainer, _Component);
 
-    function SampleContainer() {
-        _classCallCheck(this, SampleContainer);
+    function WeatherContainer() {
+        _classCallCheck(this, WeatherContainer);
 
-        var _this = _possibleConstructorReturn(this, (SampleContainer.__proto__ || Object.getPrototypeOf(SampleContainer)).call(this));
+        var _this = _possibleConstructorReturn(this, (WeatherContainer.__proto__ || Object.getPrototypeOf(WeatherContainer)).call(this));
 
         _this.state = {
             sample_input: ""
@@ -1022,7 +1022,7 @@ var SampleContainer = function (_Component) {
         return _this;
     }
 
-    _createClass(SampleContainer, [{
+    _createClass(WeatherContainer, [{
         key: 'handleChange',
         value: function handleChange(event) {
             this.setState(_defineProperty({}, event.target.id, event.target.value));
@@ -1040,22 +1040,22 @@ var SampleContainer = function (_Component) {
                     text: 'Sample Input',
                     label: 'sample_input',
                     type: 'text',
-                    id: 'sample_text',
-                    value: sample_text,
+                    id: 'sample_input',
+                    value: sample_input,
                     handleChange: this.handleChange
                 })
             );
         }
     }]);
 
-    return SampleContainer;
+    return WeatherContainer;
 }(_react.Component);
 
-exports.default = SampleContainer;
+exports.default = WeatherContainer;
 
 
-var wrapper = document.getElementById('sample-react-container');
-wrapper ? _reactDom2.default.render(_react2.default.createElement(SampleContainer, null), wrapper) : false;
+var wrapper = document.getElementById('weather-container');
+wrapper ? _reactDom2.default.render(_react2.default.createElement(WeatherContainer, null), wrapper) : false;
 
 /***/ }),
 /* 18 */

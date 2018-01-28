@@ -1,1 +1,1 @@
-import SampleContainer from './components/container/SampleContainer';
+import WeatherContainer from './components/container/WeatherContainer';
