@@ -4,9 +4,13 @@ import Icon from "./Icon";
 import Temperature from "./Temperature";
 
 
-const Weather = ({day}) => {
+const Weather = ({day, index}) => {
+    console.log('index: ' + index);
+    var classNames = 'col-lg-1 col-md-1 col-sm-3 col-xs-4 weather-column';
+    if (index === 0)
+        classNames += ' col-lg-offset-2 col-md-offset-2';
     return(
-        <div className="col-lg-2 col-md-2 col-sm-3 col-xs-4 weather-column">
+        <div className={classNames}>
             <Title 
                 dayOfWeek={day.dayOfWeek}
                 />

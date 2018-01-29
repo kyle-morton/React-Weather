@@ -46,13 +46,20 @@ class WeatherContainer extends Component {
     }
     render() {
         const { days } = this.state;
-        return(
-            <div>
-                <WeatherList 
-                    days={days}
-                />
-            </div>  
-        );
+        if (days.length > 0) 
+            return(
+                <div>
+                    <WeatherList 
+                        days={days}
+                    />
+                </div>  
+            );
+        else 
+            return(
+                <div className="text-center">
+                    <h4 className='bold'><i className="fa fa-spinner fa-spin fa-1x fa-fw"></i> Loading...</h4>
+                </div>
+            )
     }
 }
 

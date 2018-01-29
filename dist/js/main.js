@@ -1045,12 +1045,21 @@ var WeatherContainer = function (_Component) {
         value: function render() {
             var days = this.state.days;
 
-            return _react2.default.createElement(
+            if (days.length > 0) return _react2.default.createElement(
                 'div',
                 null,
                 _react2.default.createElement(_WeatherList2.default, {
                     days: days
                 })
+            );else return _react2.default.createElement(
+                'div',
+                { className: 'text-center' },
+                _react2.default.createElement(
+                    'h4',
+                    { className: 'bold' },
+                    _react2.default.createElement('i', { className: 'fa fa-spinner fa-spin fa-1x fa-fw' }),
+                    ' Loading...'
+                )
             );
         }
     }]);
@@ -18396,15 +18405,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var WeatherList = function WeatherList(_ref) {
     var days = _ref.days;
 
-    var forecastDays = days.map(function (day) {
+    var forecastDays = days.map(function (day, index) {
         return _react2.default.createElement(_Weather2.default, {
             day: day,
-            key: day.key
+            key: day.key,
+            index: index
         });
     });
     return _react2.default.createElement(
         "div",
-        { className: "row" },
+        { className: "row text-center" },
         forecastDays
     );
 };
@@ -18441,11 +18451,15 @@ var _Temperature2 = _interopRequireDefault(_Temperature);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Weather = function Weather(_ref) {
-    var day = _ref.day;
+    var day = _ref.day,
+        index = _ref.index;
 
+    console.log('index: ' + index);
+    var classNames = 'col-lg-1 col-md-1 col-sm-3 col-xs-4 weather-column';
+    if (index === 0) classNames += ' col-lg-offset-2 col-md-offset-2';
     return _react2.default.createElement(
         "div",
-        { className: "col-lg-2 col-md-2 col-sm-3 col-xs-4 weather-column" },
+        { className: classNames },
         _react2.default.createElement(_Title2.default, {
             dayOfWeek: day.dayOfWeek
         }),
