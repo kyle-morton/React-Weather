@@ -6,12 +6,13 @@ import Temperature from "./Temperature";
 
 const Weather = ({day}) => {
     return(
-        <div className="col-lg-2 col-md-3 col-sm-3 col-xs-4">
+        <div className="col-lg-2 col-md-2 col-sm-3 col-xs-4 weather-column">
             <Title 
-                dayOfWeek={day.day}
+                dayOfWeek={day.dayOfWeek}
                 />
             <Icon
-                weather={day.weather}
+                src={day.icon}
+                title={day.iconTitle}
                 />
             <Temperature 
                 highTemp={day.highTemp}

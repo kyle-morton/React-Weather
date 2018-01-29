@@ -986,26 +986,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var data = [{
-    key: 1,
-    day: 'Sunday',
-    weather: 'Sunny',
-    highTemp: 76,
-    lowTemp: 32
-}, {
-    key: 2,
-    day: 'Monday',
-    weather: 'Sunny',
-    highTemp: 61,
-    lowTemp: 43
-}, {
-    key: 3,
-    day: 'Tuesday',
-    weather: 'Cloudy',
-    highTemp: 55,
-    lowTemp: 33
-}];
-
 var WeatherContainer = function (_Component) {
     _inherits(WeatherContainer, _Component);
 
@@ -1015,15 +995,54 @@ var WeatherContainer = function (_Component) {
         var _this = _possibleConstructorReturn(this, (WeatherContainer.__proto__ || Object.getPrototypeOf(WeatherContainer)).call(this));
 
         _this.state = {
-            days: data
+            days: []
         };
+        _this.weatherAPI = 'http://api.apixu.com/v1/forecast.json';
+        _this.defaultZip = 72211;
         return _this;
     }
 
     _createClass(WeatherContainer, [{
+        key: 'createApiUrl',
+        value: function createApiUrl(zipCode) {
+            return this.weatherAPI + '?key=' + config.API_KEY + '&days=7&q=' + zipCode;
+        }
+    }, {
+        key: 'convertDateToModel',
+        value: function convertDateToModel(forecastDay) {
+            var model = {
+                key: forecastDay.date_epoch,
+                dayOfWeek: moment(forecastDay.date, 'YYYY-MM-DD').format('dddd'),
+                icon: 'http:' + forecastDay.day.condition.icon,
+                iconTitle: forecastDay.day.condition.text,
+                highTemp: parseInt(forecastDay.day.maxtemp_f),
+                lowTemp: parseInt(forecastDay.day.mintemp_f)
+            };
+            // console.log('model: ' + JSON.stringify(model));
+            return model;
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            var url = this.createApiUrl(this.defaultZip);
+
+            //call api to get 7 day forecast
+            axios.get(url).then(function (res) {
+                var dates = res.data.forecast.forecastday;
+                var dateModels = dates.map(function (forecastDay) {
+                    return _this2.convertDateToModel(forecastDay);
+                });
+                console.log('date models: ' + dateModels.length);
+                _this2.setState({
+                    days: dateModels
+                });
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
-            //deconstruct seo_title out of state
             var days = this.state.days;
 
             return _react2.default.createElement(
@@ -18426,12 +18445,13 @@ var Weather = function Weather(_ref) {
 
     return _react2.default.createElement(
         "div",
-        { className: "col-lg-2 col-md-3 col-sm-3 col-xs-4" },
+        { className: "col-lg-2 col-md-2 col-sm-3 col-xs-4 weather-column" },
         _react2.default.createElement(_Title2.default, {
-            dayOfWeek: day.day
+            dayOfWeek: day.dayOfWeek
         }),
         _react2.default.createElement(_Icon2.default, {
-            weather: day.weather
+            src: day.icon,
+            title: day.iconTitle
         }),
         _react2.default.createElement(_Temperature2.default, {
             highTemp: day.highTemp,
@@ -18493,18 +18513,9 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var renderIcon = function renderIcon(weather) {
-    switch (weather) {
-        case 'Cloudy':
-            return _react2.default.createElement("i", { className: "fa fa-cloud" });
-        case 'Sunny':
-        default:
-            return _react2.default.createElement("i", { className: "fa fa-sun-o" });
-    }
-};
-
 var Icon = function Icon(_ref) {
-    var weather = _ref.weather;
+    var src = _ref.src,
+        title = _ref.title;
 
     return _react2.default.createElement(
         "div",
@@ -18512,7 +18523,7 @@ var Icon = function Icon(_ref) {
         _react2.default.createElement(
             "div",
             { className: "col-xs-12" },
-            renderIcon(weather)
+            _react2.default.createElement("img", { src: src, title: title })
         )
     );
 };
