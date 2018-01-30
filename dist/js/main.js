@@ -978,6 +978,10 @@ var _WeatherList = __webpack_require__(29);
 
 var _WeatherList2 = _interopRequireDefault(_WeatherList);
 
+var _LocationInput = __webpack_require__(34);
+
+var _LocationInput2 = _interopRequireDefault(_LocationInput);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -995,10 +999,13 @@ var WeatherContainer = function (_Component) {
         var _this = _possibleConstructorReturn(this, (WeatherContainer.__proto__ || Object.getPrototypeOf(WeatherContainer)).call(this));
 
         _this.state = {
-            days: []
+            days: [],
+            city: 'Little Rock',
+            zipCode: '72211'
         };
         _this.weatherAPI = 'http://api.apixu.com/v1/forecast.json';
-        _this.defaultZip = 72211;
+        // This binding is necessary to make `this` work in the callback
+        _this.zipCodeChanged = _this.zipCodeChanged.bind(_this);
         return _this;
     }
 
@@ -1022,32 +1029,78 @@ var WeatherContainer = function (_Component) {
             return model;
         }
     }, {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
+        key: 'updateForecast',
+        value: function updateForecast(zipCode) {
             var _this2 = this;
 
-            var url = this.createApiUrl(this.defaultZip);
+            var url = this.createApiUrl(zipCode);
 
             //call api to get 7 day forecast
             axios.get(url).then(function (res) {
+                var city = res.data.location.name;
                 var dates = res.data.forecast.forecastday;
                 var dateModels = dates.map(function (forecastDay) {
                     return _this2.convertDateToModel(forecastDay);
                 });
-                console.log('date models: ' + dateModels.length);
                 _this2.setState({
-                    days: dateModels
+                    days: dateModels,
+                    zipCode: zipCode,
+                    city: city
                 });
             });
         }
     }, {
+        key: 'zipCodeChanged',
+        value: function zipCodeChanged(zipCode, e) {
+            e.preventDefault();
+            // console.log('zip code changed: ' + zipCode + '/' + this.state.zipCode);
+
+            //if invalid or same zip, skip change event
+            if (!zipCode || zipCode.length < 5 || zipCode === this.state.zipCode) return;
+
+            this.updateForecast(zipCode);
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.updateForecast(this.state.zipCode);
+        }
+    }, {
         key: 'render',
         value: function render() {
-            var days = this.state.days;
+            var _state = this.state,
+                days = _state.days,
+                zipCode = _state.zipCode,
+                city = _state.city;
 
             if (days.length > 0) return _react2.default.createElement(
                 'div',
                 null,
+                _react2.default.createElement(
+                    'div',
+                    { className: 'row' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'col-xs-12 text-center' },
+                        _react2.default.createElement(
+                            'h2',
+                            null,
+                            city,
+                            ' Weather (',
+                            zipCode,
+                            ')'
+                        )
+                    )
+                ),
+                _react2.default.createElement('br', null),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'row' },
+                    _react2.default.createElement(_LocationInput2.default, {
+                        zipCodeChanged: this.zipCodeChanged,
+                        zipCode: zipCode })
+                ),
+                _react2.default.createElement('hr', null),
                 _react2.default.createElement(_WeatherList2.default, {
                     days: days
                 })
@@ -18454,7 +18507,6 @@ var Weather = function Weather(_ref) {
     var day = _ref.day,
         index = _ref.index;
 
-    console.log('index: ' + index);
     var classNames = 'col-lg-1 col-md-1 col-sm-3 col-xs-4 weather-column';
     if (index === 0) classNames += ' col-lg-offset-2 col-md-offset-2';
     return _react2.default.createElement(
@@ -18596,6 +18648,56 @@ var Temperature = function Temperature(_ref) {
 };
 
 exports.default = Temperature;
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LocationInput = function LocationInput(_ref) {
+    var zipCodeChanged = _ref.zipCodeChanged,
+        zipCode = _ref.zipCode;
+
+    var input = void 0;
+    return _react2.default.createElement(
+        'div',
+        { className: 'text-center col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-12' },
+        _react2.default.createElement(
+            'form',
+            { onSubmit: function onSubmit(e) {
+                    return zipCodeChanged(input.value, e);
+                } },
+            _react2.default.createElement(
+                'label',
+                null,
+                'Zip Code'
+            ),
+            _react2.default.createElement('input', { type: 'text', className: 'form-control', maxLength: '5', ref: function ref(node) {
+                    input = node;
+                } }),
+            _react2.default.createElement('br', null),
+            _react2.default.createElement(
+                'button',
+                { type: 'submit', className: 'btn btn-default' },
+                'Submit'
+            )
+        )
+    );
+};
+
+exports.default = LocationInput;
 
 /***/ })
 /******/ ]);

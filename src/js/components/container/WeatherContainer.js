@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import WeatherList from "../presentational/WeatherList";
+import LocationInput from "../presentational/LocationInput";
 
 class WeatherContainer extends Component {
     constructor() {
         super();
         this.state = {
-            days: []
+            days: [],
+            city: 'Little Rock',
+            zipCode: '72211'
         };
         this.weatherAPI = 'http://api.apixu.com/v1/forecast.json';
-        this.defaultZip = 72211;
+        // This binding is necessary to make `this` work in the callback
+        this.zipCodeChanged = this.zipCodeChanged.bind(this);
     }
     createApiUrl(zipCode) {
         return this.weatherAPI 
@@ -28,30 +32,59 @@ class WeatherContainer extends Component {
         // console.log('model: ' + JSON.stringify(model));
         return model;
     }
-    componentDidMount() {
-        var url = this.createApiUrl(this.defaultZip);
+    updateForecast (zipCode) {
+        var url = this.createApiUrl(zipCode);
 
         //call api to get 7 day forecast
         axios.get(url)
         .then((res) => {
+            var city = res.data.location.name;
             var dates = res.data.forecast.forecastday;
             var dateModels = dates.map((forecastDay) => {
                 return this.convertDateToModel(forecastDay);
             });
-            console.log('date models: ' + dateModels.length);
             this.setState({
-                days: dateModels
+                days: dateModels,
+                zipCode: zipCode,
+                city: city
             });
         });
     }
+    zipCodeChanged (zipCode, e) {
+        e.preventDefault();
+        // console.log('zip code changed: ' + zipCode + '/' + this.state.zipCode);
+
+        //if invalid or same zip, skip change event
+        if (!zipCode || zipCode.length < 5 || zipCode === this.state.zipCode)
+            return;
+
+        this.updateForecast(zipCode);
+
+    }
+    componentDidMount() {
+        this.updateForecast(this.state.zipCode);
+    }
     render() {
-        const { days } = this.state;
+        const { days, zipCode, city } = this.state;
         if (days.length > 0) 
             return(
                 <div>
+                    <div className="row">
+                        <div className="col-xs-12 text-center">
+                            <h2>{city} Weather ({zipCode})</h2>
+                        </div>
+                    </div>
+                    <br />
+                    <div className='row'>
+                        <LocationInput 
+                            zipCodeChanged={this.zipCodeChanged} 
+                            zipCode={zipCode}/>
+                    </div>
+                    <hr />
                     <WeatherList 
                         days={days}
                     />
+
                 </div>  
             );
         else 
