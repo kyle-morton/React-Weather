@@ -1,6 +1,8 @@
-# React Jumpstart
+# React Weather App
 
-Simple project for quickly getting a React/Webpack/Babel project off the ground.
+Small react app using some of the basic skills I've picked up so far (components, props, etc). Displays a real-time 7 day forecast for the given zip-code (defaults to Little Rock, AR). 
+
+Demo Available At: https://codepen.io/kylemorton5770/pen/NyPVab
 
 Notes
 --------------
