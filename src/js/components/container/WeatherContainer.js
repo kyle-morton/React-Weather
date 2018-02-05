@@ -78,7 +78,8 @@ class WeatherContainer extends Component {
                     <div className='row'>
                         <LocationInput 
                             zipCodeChanged={this.zipCodeChanged} 
-                            zipCode={zipCode}/>
+                            zipCode={zipCode}
+                        />
                     </div>
                     <hr />
                     <WeatherList 

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const LocationInput = ({zipCodeChanged, zipCode}) => {
     let input;
@@ -17,5 +18,11 @@ const LocationInput = ({zipCodeChanged, zipCode}) => {
         </div>
     );
 }
+
+
+LocationInput.propTypes = {
+    zipCodeChanged: PropTypes.func.isRequired,
+    zipCode: PropTypes.string.isRequired
+};
 
 export default LocationInput;

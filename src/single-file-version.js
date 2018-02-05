@@ -8,6 +8,11 @@ const Icon = ({src, title}) => {
     );
 };
 
+Icon.propTypes = {
+    src: React.PropTypes.string.isRequired,
+    title: React.PropTypes.string.isRequired
+};
+
 const LocationInput = ({zipCodeChanged, zipCode}) => {
     let input;
     return(
@@ -26,6 +31,11 @@ const LocationInput = ({zipCodeChanged, zipCode}) => {
     );
 };
 
+LocationInput.propTypes = {
+    zipCodeChanged: React.PropTypes.func.isRequired,
+    zipCode: React.PropTypes.string.isRequired
+};
+
 const Temperature = ({highTemp, lowTemp}) => {
     return(
         <div className="row">
@@ -41,6 +51,11 @@ const Temperature = ({highTemp, lowTemp}) => {
     );
 };
 
+Temperature.propTypes = {
+    highTemp: React.PropTypes.number.isRequired,
+    lowTemp: React.PropTypes.number.isRequired
+};
+
 const Title = ({dayOfWeek}) => {
     return(
         <div>
@@ -50,6 +65,10 @@ const Title = ({dayOfWeek}) => {
             <br />
         </div>
     );
+};
+
+Title.propTypes = {
+    dayOfWeek: React.PropTypes.string.isRequired
 };
 
 const Weather = ({day, index}) => {
@@ -73,6 +92,11 @@ const Weather = ({day, index}) => {
     );
 };
 
+Weather.propTypes = {
+    day: React.PropTypes.object.isRequired,
+    index: React.PropTypes.number.isRequired
+};
+
 const WeatherList = ({days}) => {
     const forecastDays = days.map((day, index) => {
         return(
@@ -89,6 +113,11 @@ const WeatherList = ({days}) => {
         </div>
     );
 };
+
+WeatherList.propTypes = {
+    days: React.PropTypes.array.isRequired
+};
+
 
 class WeatherContainer extends React.Component {
     constructor() {

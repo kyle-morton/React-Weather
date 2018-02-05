@@ -1,5 +1,6 @@
 import React from "react";
 import Weather from "./Weather";
+import PropTypes from 'prop-types';
 
 const WeatherList = ({days}) => {
     const forecastDays = days.map((day, index) => {
@@ -16,6 +17,10 @@ const WeatherList = ({days}) => {
             {forecastDays}
         </div>
     );
+};
+
+WeatherList.propTypes = {
+    days: PropTypes.array.isRequired
 };
 
 export default WeatherList;

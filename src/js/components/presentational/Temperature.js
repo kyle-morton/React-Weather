@@ -1,5 +1,5 @@
 import React from "react";
-
+import PropTypes from 'prop-types';
 
 const Temperature = ({highTemp, lowTemp}) => {
     return(
@@ -14,6 +14,11 @@ const Temperature = ({highTemp, lowTemp}) => {
             </div>
         </div>
     );
+};
+
+Temperature.propTypes = {
+    highTemp: PropTypes.number.isRequired,
+    lowTemp: PropTypes.number.isRequired
 };
 
 export default Temperature;
